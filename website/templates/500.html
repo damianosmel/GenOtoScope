@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<style>
+    {{ super() }}
+</style>
+<div class="container-fluid-custom">{{ error_content|safe }}
+    <h1>An unexpected error has occurred</h1>
+    <p><b>User VCF file name:</b> {{user_input_file}}</p>
+    <p>Please, first make sure that your input file uses the <u>GRch37 coordinates</u> and it contains <u>a single variant row
+        with genotype (GT) information</u>.
+    <br>
+    <p>Then, please let us know by creating a new question-thread at GenOtoScope <a
+            href="https://groups.google.com/g/genotoscope/">emailing list</a>; specifying your input VCF filename.<br>
+        We will check the internal logs manually to let you know the reasons of this unexpected error.</p>
+    <p>Sorry for the inconvenience!</p>
+    <p><a href="{{ url_for('home') }}">Back to home</a></p>
+</div>
+{% endblock %}

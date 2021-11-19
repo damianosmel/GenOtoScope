@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<style>
+    {{ super() }}
+
+
+</style>
+<div class="container-fluid-custom">{{ documentation_content|safe }}
+    {{ about|safe }}
+    <div id="contributors">
+        <h1>Development</h1>
+        <p> GenOtoScope is a collaborative effort for three research institutes: Genomics subdivision of <a
+                href="https://www.mhh.de/en/human-genetics">Human Genetics department</a> at Hannover Medical School (<a
+                href="https://www.mhh.de/">MHH</a>), <a href="https://www.l3s.de/en">L3S research center</a>, an
+            institute
+            of <a href="https://www.uni-hannover.de/en/">Leibniz University Hannover</a> and the <a
+                    href="https://www.dhz.clinic/en">German Hearing Center Hannover</a>.</p>
+
+        <p>
+            Contributions by project sections were made by:<br>
+            <b>Genomic sampling:</b> Dr. rer. nat. Sandra von Hardenberg and hearing center member?<br>
+            <b>Patient counseling and recruitment:</b> Dr. med. Christian Landgraf and <a
+                href="https://www.dhz.clinic/wir-ueber-uns/team/leitung">Prof. Dr. med. Anke Lesinski-Schiedat</a>.<br>
+            <b>Tool validation:</b> Dr. rer. nat. Anja Schöner-Heinisch, Dr. med. Christian Landgraf and Dr. rer. nat.
+            Gunnar Schmidt.<br>
+            <b>Algorithm design and software development:</b> <a href="https://damianosmel.github.io/">M.Sc. Damianos P.
+            Melidis</a> supervised by Dr. med. Christian Landgraf, Dr. rer. nat. Gunnar Schmidt,<br> Dr. rer. nat. Anja
+            Schöner-Heinisch, <a href="https://www.mhh.de/humangenetik/ueber-uns/unser-team/teamleitungen/bernd-auber">Dr.
+            med. Bernd Auber</a> and <a href="https://kbs.uni-hannover.de/~nejdl/">Prof. Dr. techn. Dipl.-Ing. Wolfgang
+            Nejdl</a>.<br>
+            <b>Projet management:</b> <a href="https://kbs.uni-hannover.de/~nejdl/">Prof. Dr. techn. Dipl.-Ing. Wolfgang
+            Nejdl</a>, <a href="https://www.mhh.de/humangenetik/ueber-uns/unser-team/teamleitungen/bernd-auber">Dr. med.
+            Bernd Auber</a> and someone from hearing center?
+        </p>
+    </div>
+    <hr>
+    <div id="contact">
+        <h1>Contact us</h1>
+
+        <p>
+            Please email us at GenOtoScope <a href="https://groups.google.com/g/genotoscope/">mailing list</a> for
+            general and usage questions.<br>
+            To ask a code-related question, please open an new issue at github repository.
+        </p>
+    </div>
+    <hr>
+    <div id="citation">
+        <h1>Citation</h1>
+        <p>
+            If you use the web or command line version of GenOtoScope, please cite: ..
+        </p>
+    </div>
+    <hr>
+    <div id="funding">
+        <h1>Supported by</h1>
+        <p>
+            We cordially thank <a href="https://www.volkswagenstiftung.de/en/foundation">Volkswagen Foundation</a>
+            funding the “Understanding Cochlear Implant Outcome Variability using Big Data and Machine Learning
+            Approaches” project; a project of the cluster of excellence <a
+                href="https://hearing4all.de/en/">Hearing4all</a>.
+        </p>
+    </div>
+</div>
+{% endblock %}

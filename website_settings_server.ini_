@@ -1,0 +1,17 @@
+[APP_INFO]
+secret_key = you-will-never-guess
+redis_url = redis://127.0.0.1:6379
+downloads_url = /home/melidis/hearing_genomics/website/downloads
+uploads_url = /home/melidis/hearing_genomics/website/uploads
+temp_folder_url = /home/melidis/hearing_genomics/website/tmp
+web_data_host = /home/melidis/hearing_genomics/website
+logs_root_dir = /home/melidis/hearing_genomics/website
+
+genotoscope_web_out = /home/melidis/hearing_genomics/website/genotoscope_out
+genotoscope_settings = /home/melidis/hearing_genomics/genotoscope_server.yaml
+genotoscope_analysis_root = /home/melidis/hearing_genomics
+
+docker_root_host = /home/melidis/dockerspace
+docker_root = /megSAP
+docker_image_id = 3724c2b11a4d
+

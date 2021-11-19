@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+
+{% block app_content %}
+<style>
+    {{ super() }}
+
+
+
+
+</style>
+<div class="container-fluid-custom">{{ documentation_content|safe }}
+    <div id="algorithm">
+        <h1>How GenOtoScope works?</h1>
+        <p>
+            GenOtoScope predicts genomic variant pathogenicity for hereditary hearing loss following the published <a
+                href="https://www.onlinelibrary.wiley.com/doi/full/10.1002/humu.23630">ACMG/AMP guidelines</a>.
+            The Python tool examines automatically 12 out of the 24 evidence-based rules for each exonic variant. Then,
+            it
+            combines the triggered rules to assign the ordered categorical pathogenicity class (1: Benign, 2: Likely
+            Benign,
+            3: Variant of Uncertain Significance (VUS), 4: Likely Pathogenic and 5: Pathogenic).
+            Finally, the pathogenicity posterior probability for the variant is calculated, based on the published <a
+                href="https://www.nature.com/articles/gim2017210">Bayesian framework</a>, as a indication in the process
+            to
+            distinguish potentially pathogenic VUS variants from the benign ones.
+        </p>
+
+        <p>
+            GenOtoScope <em>currently</em> implements the following evidence-based rules, following <a
+                href="https://www.clinicalgenome.org/affiliation/50007">CliGen Hearing Loss Variant Curation Expert
+            Panel</a>: PVS1(very strong, strong, moderate and supporting), PS1, PM1, PM2 (moderate and supporting), PM4,
+            PM5
+            (strong and moderate), PP3, BA1, BS1 (strong and supporting), BP3, BP4 and BP7.
+        </p>
+    </div>
+    <hr>
+    <div id="input_data">
+        <h1>Input Data</h1>
+        <p>
+            <b>Web application:</b> The user is expected to upload a single-variant VCF file.<br>
+            The VCF requirements are:
+        <ul style="list-style-type:disc;">
+            <li> GRCh37 coordinates of human genome</li>
+            <li> 4.1 or later VCF format</li>
+            <li> genotype (GT) column included</li>
+            <li> VeP annotation is not already included</li>
+        </ul>
+        <b>Command-line application:</b> The user needs to give a folder that contains each patient annotated
+        variants
+        file (.GSvar) as a subfolder. Also the user should supply a configuration file containing the disk location
+        of
+        public databases and parameters to run GenOtoScope.<br>
+        </p>
+
+        <p> For both applications GRCh37 coordinates are used.</p>
+    </div>
+    <hr>
+    <div id="output_data">
+        <h1>Output Data</h1>
+        <p>
+            <b>Web application:</b> GenOtoScope will annotate the variant using open bioinformatic databases and tools
+            and
+            will predict its
+            ACMG pathogenicity class and posterior probability. Also comments for each examined ACMG rule will be
+            provided to help variant curator to judge the classification.<br>
+            <b>Command-line application:</b> For each patient variant, found in the .GSvar file, five new columns will
+            be
+            appended: ACMG categorical and numerical class, comments produced through the automatic examination of the
+            evidence-based rules, the posterior probability and warning messages produced for evidence-based rules based
+            on
+            frequency data.
+        </p>
+    </div>
+    <hr>
+    <div id="cli">
+        <h1>Predict hearing-loss pathogenicity from whole exome file?</h1>
+        <p>
+            For data protection reasons, we allow online users to classify only one genomic variant using
+            GenOtoscope.<br>
+            If you would like to annotate a whole exome sequencing file (WES) please install and run the command
+            line version of the tool.<br>
+        </p>
+
+        <p> Please follow our <a href="https://groups.google.com/g/genotoscope/">emailing list</a> to stay informed for
+            the
+            release of the open source command line application.</p>
+    </div>
+    <hr>
+    <div id="disclaimer">
+        <h1> Disclaimer </h1>
+        <p>
+            We make no warranties regarding the correctness of the data, and disclaim liability for damages resulting
+            from its use.<br>
+            Any medical or genetic information is provided for research, educational and informational purposes
+            only.<br>
+            It is not in any way intended to be used as a substitute for professional medical advice, diagnosis,
+            treatment or care.
+        </p>
+    </div>
+    <hr>
+    <div id="license">
+        <h1>License</h1>
+        <p>
+            This is an Open Source project and available under the <a href="http://www.gnu.org/licenses/agpl-3.0.html">GNU
+            Affero General Public License</a> please check out the project repository ..
+        </p>
+    </div>
+    <hr>
+    <div id="privacy">
+        <h1>Data Privacy</h1>
+        <p>
+            GenOtoScope will not keep any user personal or patient related data.<br>
+            GenOtoScope will save only the single variant VCF file, chosen by the user.<br>
+            Access to the saved VCF files will have:
+        <ul style="list-style-type:disc;">
+            <li> Current GenOtoScope maintainers: M.Sc. Anna-Lena Katzke & M.Sc. Damianos P. Melidis</li>
+            <li> General technical support of MHH: ..</li>
+        </ul>
+        </p>
+    </div>
+    <hr>
+    <div id="annotation_sources">
+        <h1> Annotation source and tool versions </h1>
+        <p>
+        <h2> Current annotation database versions:</h2>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Database</th>
+                <th scope="col">Version</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Ensembl</td>
+                <td>75 (GRCh37/hg19)</td>
+            </tr>
+            <tr>
+                <td>ClinVar</td>
+                <td>v. Mar 2021</td>
+            </tr>
+            <tr>
+                <td>UniProt</td>
+                <td>v. Feb 2021</td>
+            </tr>
+            <tr>
+                <td>gnomAD</td>
+                <td>v2.1</td>
+            </tr>
+            </tbody>
+        </table>
+        </p>
+
+        <p>
+        <h2> Annotation tools:</h2>
+        On the PP3, BP4 and BP7 evidence-based rules the following annotation tools were used:<br>
+        <b>Effect prediction:</b> VeP<br>
+        <b>Pathogenicity:</b> CADD and REVEL<br>
+        <b>Splicing effect:</b> MaxEntScan and dbscSNV<br>
+        <b>Site conservation:</b> PhyloP
+        </p>
+    </div>
+</div>
+{% endblock %}

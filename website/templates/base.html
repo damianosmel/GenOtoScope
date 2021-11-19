@@ -1,0 +1,123 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block styles %}
+<link href="//fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic"
+      rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="shortcut icon" href="{{ url_for('static',filename='images/genotoscope_logo.ico')}}" type="image/x-icon">
+{% endblock %}
+
+{% block title %}
+{% if title %} GenOtoScope | {{title}} {% else %} Welcome to GenOtoScope {% endif %}
+
+{% endblock %}
+
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-custom static-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='images/genotoscope_logo.svg') }}" width="120"
+                 alt="genotoscope_logo">
+            <span class="brand-name">GenOtoScope</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('home') }}">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('documentation') }}">Documentation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+
+<main>
+    {% block app_content %}{% endblock %}
+</main>
+
+{% block footer %}
+<footer class="footer">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="nav navbar-nav navbar-left">
+                <ul class="footerleft">
+                    <li>
+                        <a href="{{url_for('documentation')}}#disclaimer">Disclaimer</a>
+                    </li>
+                    <li>
+                        <a href="{{url_for('documentation')}}#privacy">Data Protection</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="text-center center-block">
+                <a href="https://www.l3s.de/de"><i id="institute-l3s" class="fa fa-facebook-square fa-3x institute"></i>
+                    <img alt="L3S_logo" src="{{ url_for('static', filename='images/l3s_logo.jpg') }}" width="50">
+                </a>
+                &nbsp;
+                <a href="https://www.uni-hannover.de/de/"><i id="institute-luh"
+                                                             class="fa fa-twitter-square fa-3x institute"></i>
+                    <img alt="LUH_logo" src="{{url_for('static', filename='images/luh_logo.svg')}}" width="80">
+                </a>
+                &nbsp;
+                <a href="https://www.mhh.de/"><i id="institute-mhh"
+                                                 class="fa fa-google-plus-square fa-3x institute"></i>
+                    <img alt="MHH_logo" src="{{url_for('static', filename='images/mhh_logo.svg')}}" width="90">
+                </a>
+                &nbsp;
+                <a href="https://www.dhz.clinic/en/"><i id="institute-hearingcenter"
+                                                        class="fa fa-envelope-square fa-3x institute"></i>
+                    <img alt="DHZ_logo" src="{{url_for('static', filename='images/dhz_logo.svg')}}" width="55">
+                </a>
+                &nbsp;
+                <a href="https://hearing4all.de/en/"><i id="institute-hearing4all"
+                                                        class="fa fa-envelope-square fa-3x institute"></i>
+                    <img alt="H4All_logo" src="{{url_for('static',filename='images/hearing4all_logo.png')}}" width="50">
+                </a>
+            </div>
+
+            <div class="nav navbar-nav navbar-right">
+                <ul class="navbar-nav ml-auto">
+                    <li>
+                        <small>© 2021-2022 Medical School Hannover & L3S Research Center </small>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+</footer>
+{% endblock%}
+
+{% endblock %}

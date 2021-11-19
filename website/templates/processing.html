@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+
+{% block app_content %}
+<div class="container">
+    <div class="alert alert-info" role="alert">
+        <h2>Please wait: Processing annotation and classification of input variant</h2>
+        <br>
+        <h3>Status: <span class="blink-element" id="status">Running</span></h3>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script type="text/javascript">
+function getStatus() {
+    $.ajax({
+        url: '/progress/{{job_id}}',
+        success: function (data) {
+            if(data.status === 'finished') {
+                $('#status').html('Completed')
+                setTimeout(function(){
+                window.location.href= '/classification/{{vcf_file}}'
+                },1000)
+            }
+            else {
+                console.log(data);
+                setTimeout(getStatus, 1000);
+            }
+        }
+    })
+}
+getStatus()
+
+</script>
+
+{% endblock %}

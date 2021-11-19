@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="container-xl-custom">
+    <h3>The variant was annotated using megSAP and classified using GenOtoScope.</h3>
+    {% if genotoscope_results.acmg_warnings != "NA" %}
+    <h3>Warnings:</h3>
+    <h3>{{genotoscope_results.acmg_warnings}}</h3>
+    {% endif %}
+    <hr>
+    <h1>Pathogenicity Classification per known inheritance modes: </h1>
+    <h3>Preferred inheritance: {{genotoscope_results.preferred_inheritance}}</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered"  style="white-space:pre-wrap;">
+            <thead class="thead-light">
+            <tr style="font-weight:bold">
+                <th class="col-sm-4">ACMG class</th>
+                <th class="col-sm-4">ACMG class (numeric)</th>
+                <th class="col-sm-4">Posterior probability of pathogenicity</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{genotoscope_results.ACMG_class_preferred}}</td>
+                <td>{{genotoscope_results.ACMG_class_numeric_preferred}}</td>
+                <td>{{genotoscope_results.ACMG_class_prob_preferred}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {% if genotoscope_results.alternative_inheritance == "NA" %}
+    <h3> Alternative inheritance: Not applicable </h3>
+    {% else %}
+    <h3>Alternative inheritance: {{genotoscope_results.alternative_inheritance}}</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered"  style="white-space:pre-wrap;">
+            <thead class="thead-light">
+            <tr style="font-weight:bold">
+                <th class="col-sm-4">ACMG class</th>
+                <th class="col-sm-4">ACMG class (numeric)</th>
+                <th class="col-sm-4">Posterior probability of pathogenicity</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{genotoscope_results.ACMG_class_alternative}}</td>
+                <td>{{genotoscope_results.ACMG_class_numeric_alternative}}</td>
+                <td>{{genotoscope_results.ACMG_class_prob_alternative}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    <hr/>
+    <h1> ACMG Evidence-based Criteria</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered" style="white-space:pre-wrap;">
+            <thead class="thead-light">
+            <tr>
+                <th class="col-sm-1">Criterion</th>
+                <th class="col-sm-3">Activated?</th>
+                <th class="col-sm-8">Activation Comment</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>PVS1</th>
+                <td>{{genotoscope_results.PVS1.assignment}}</td>
+                <td>{{genotoscope_results.PVS1.comment}}</td>
+            </tr>
+            <tr>
+                <th>PS1</th>
+                <td>{{genotoscope_results.PS1.assignment}}</td>
+                <td>{{genotoscope_results.PS1.comment}}</td>
+            </tr>
+            <tr>
+                <th>PM1</th>
+                <td>{{genotoscope_results.PM1.assignment}}</td>
+                <td>{{genotoscope_results.PM1.comment}}</td>
+            </tr>
+            <tr>
+                <th>PM4</th>
+                <td>{{genotoscope_results.PM4.assignment}}</td>
+                <td>{{genotoscope_results.PM4.comment}}</td>
+            </tr>
+            <tr>
+                <th>PM5</th>
+                <td>{{genotoscope_results.PM5.assignment}}</td>
+                <td>{{genotoscope_results.PM5.comment}}</td>
+            </tr>
+            <tr>
+                <th>PP3</th>
+                <td>{{genotoscope_results.PP3.assignment}}</td>
+                <td>{{genotoscope_results.PP3.comment}}</td>
+            </tr>
+            <tr>
+                <th>BP3</th>
+                <td>{{genotoscope_results.BP3.assignment}}</td>
+                <td>{{genotoscope_results.BP3.comment}}</td>
+            </tr>
+            <tr>
+                <th>BP4</th>
+                <td>{{genotoscope_results.BP4.assignment}}</td>
+                <td>{{genotoscope_results.BP4.comment}}</td>
+            </tr>
+            <tr>
+                <th>BP7</th>
+                <td>{{genotoscope_results.BP7.assignment}}</td>
+                <td>{{genotoscope_results.BP7.comment}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <h1><u>Inheritance related</u> ACMG Evidence-based Criteria </h1>
+    <h3>General comment: {{genotoscope_results.inheritance_general_comment}} </h3>
+
+    <h3>Preferred inheritance: {{genotoscope_results.preferred_inheritance}}</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered"  style="white-space:pre-wrap;">
+            <thead class="thead-light">
+            <tr>
+                <th class="col-sm-2">Criterion</th>
+                <th class="col-sm-2">Activated?</th>
+                <th class="col-sm-8">Activation Comment</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>PM2</th>
+                <td>{{genotoscope_results.PM2_preferred.assignment}}</td>
+                <td>{{genotoscope_results.PM2_preferred.comment}}</td>
+            </tr>
+            <tr>
+                <th>PM2 Supporting</th>
+                <td>{{genotoscope_results.PM2_Supporting_preferred.assignment}}</td>
+                <td>{{genotoscope_results.PM2_Supporting_preferred.comment}}</td>
+            </tr>
+            <tr>
+                <th>BA1</th>
+                <td>{{genotoscope_results.BA1_preferred.assignment}}</td>
+                <td>{{genotoscope_results.BA1_preferred.comment}}</td>
+            </tr>
+            <tr>
+                <th>BS1</th>
+                <td>{{genotoscope_results.BS1_preferred.assignment}}</td>
+                <td>{{genotoscope_results.BS1_preferred.comment}}</td>
+            </tr>
+            <tr>
+                <th>BS1 Supporting</th>
+                <td>{{genotoscope_results.BS1_Supporting_preferred.assignment}}</td>
+                <td>{{genotoscope_results.BS1_Supporting_preferred.comment}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% if genotoscope_results.alternative_inheritance == "NA" %}
+    <h3> Alternative inheritance: Not applicable </h3>
+    {% else %}
+    <h3>Alternative inheritance: {{genotoscope_results.alternative_inheritance}}</h3>
+    <divclass="table-responsive">
+        <table class="table table-bordered"  style="white-space:pre-wrap;">
+            <thead class="thead-light">
+            <tr>
+                <th class="col-sm-1">Criterion</th>
+                <th class="col-sm-2">Activated?</th>
+                <th class="col-sm-9">Activation Comment</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>PM2</th>
+                <td>{{genotoscope_results.PM2_alternative.assignment}}</td>
+                <td>{{genotoscope_results.PM2_alternative.comment}}</td>
+            </tr>
+            <tr>
+                <th>PM2 Supporting</th>
+                <td>{{genotoscope_results.PM2_Supporting_alternative.assignment}}</td>
+                <td>{{genotoscope_results.PM2_Supporting_alternative.comment}}</td>
+            </tr>
+            <tr>
+                <th>BA1</th>
+                <td>{{genotoscope_results.BA1_alternative.assignment}}</td>
+                <td>{{genotoscope_results.BA1_alternative.comment}}</td>
+            </tr>
+            <tr>
+                <th>BS1</th>
+                <td>{{genotoscope_results.BS1_alternative.assignment}}</td>
+                <td>{{genotoscope_results.BS1_alternative.comment}}</td>
+            </tr>
+            <tr>
+                <th>BS1 Supporting</th>
+                <td>{{genotoscope_results.BS1_Supporting_alternative.assignment}}</td>
+                <td>{{genotoscope_results.BS1_Supporting_alternative.comment}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <br>
+    <hr/>
+    <br>
+
+    <h1> Basic Information </h1>
+    <div class="table-responsive">
+        <table class="table table-bordered"  style="white-space:pre-wrap;">
+            <thead class="thead-light">
+            <tr>
+                <th class="col-sm-1">Chromosome</th>
+                <th class="col-sm-1">Start</th>
+                <th class="col-sm-1">End</th>
+                <th class="col-sm-3">Ref</th>
+                <th class="col-sm-3">Alt</th>
+                <th class="col-sm-1">Zygosity</th>
+                <th class="col-sm-1">Quality</th>
+                <th class="col-sm-1">Gene</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{genotoscope_results.chr}}</td>
+                <td>{{genotoscope_results.start}}</td>
+                <td>{{genotoscope_results.end}}</td>
+                <td>{{genotoscope_results.ref}}</td>
+                <td>{{genotoscope_results.obs}}</td>
+                <td>{{genotoscope_results.zygosity}}</td>
+                <td>{{genotoscope_results.quality}}</td>
+                <td>{{genotoscope_results.gene}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <hr/>
+    <br>
+
+    <h1> Transcript Annotations </h1>
+    <div class="table-responsive">
+        <table class="table table-bordered" style="white-space:pre-wrap;">
+            <thead class="thead-light">
+            <tr>
+                <th class="col-sm-2">Variant Type</th>
+                <th class="col-sm-5">Coding & Splicing (Ensembl)</th>
+                <th class="col-sm-5">Coding & Splicing (RefSeq)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{genotoscope_results.variant_type}}</td>
+                <td>{{genotoscope_results.coding_and_splicing}}</td>
+                <td>{{genotoscope_results.coding_and_splicing_refseq}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <hr/>
+    <br>
+
+    <h1> Population, Effect & Conservation Annotations</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered" style="white-space:pre-wrap;">
+            <thead class="thead-light">
+            <tr>
+                <th class="col">ClinVar</th>
+                <th class="col-sm-2">dbSNP</th>
+                <th class="col-sm-1">gnomAD</th>
+                <th class="col-sm-2">gnomAD subpopulations</th>
+                <th class="col-sm-1">CADD</th>
+                <th class="col-sm-1">REVEL</th>
+                <th class="col-sm-2">MaxEntScan</th>
+                <th class="col-sm-2">dbscSNV</th>
+                <th class="col-sm-1">phyloP</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{genotoscope_results.ClinVar}}</td>
+                <td>{{genotoscope_results.dbSNP}}</td>
+                <td>{{genotoscope_results.gnomAD}}</td>
+                <td>{{genotoscope_results.gnomAD_sub}}</td>
+                <td>{{genotoscope_results.CADD}}</td>
+                <td>{{genotoscope_results.REVEL}}</td>
+                <td>{{genotoscope_results.MaxEntScan}}</td>
+                <td>{{genotoscope_results.dbscSNV}}</td>
+                <td>{{genotoscope_results.phyloP}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</>
+{% endblock %}

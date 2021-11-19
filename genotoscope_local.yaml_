@@ -1,0 +1,44 @@
+---
+### Gene inheritance ###
+genes_inheritance_file: "gene_inheritance_patterns_clingen_mhh.xlsx"
+thresholds_inheritance_file: "thresholds_inheritance_mode.csv"
+
+### ClinVar ###
+clinvar_root: "ClinVar"
+clinvar_version: "clinvar_mar_2021"
+clinvar_file: "clinvar_20210323.vcf.gz"
+clinvar_stars_file: "clinvar_review_stars.tsv"
+# ACMG HL expert panel contains variant triggering PM5 using ClinVar entry with one review star
+# link: https://www.google.com/url?q=https://erepo.genome.network/evrepo/ui/classification/CA4432734/MONDO:0010134/005&sa=D&source=editors&ust=1617113697097000&usg=AOvVaw1CQYwJirFQyeObmPf9M_ec
+min_review_stars: 1
+
+
+### UniProt ###
+# processed UniProt annotation file to contain same number of columns (per bed file)
+uniprot_root: "uniprot"
+uniprot_version: "uniprot_feb_2021"
+uniprot_domains_file: "UP000005640_9606_domain_hg19_15columns.bed"
+uniprot_repeat_file: "UP000005640_9606_repeat_hg19_16columns.bed"
+
+### gnomAD ###
+gnomAD_version: "gnomAD_v2.1"
+
+### Bed annotations ###
+beds_root: "annotation_beds"
+# critical regions of proteins
+critical_prot_regions_file: "critical_regions_pathogenic_probability.bed"
+# critical regions without benign mutation (used in PM1) of proteins
+critical_regions_no_benign_file: "critical_regions_pathogenic_probability_no_benign.bed"
+# clinical significant exons
+clinical_exons_file: "clinical_significant_exons.bed"
+# phenotype-relevant (hearing loss) exons
+hearing_loss_annot_root: "hearing_loss"
+hl_relevant_exons_file: "pheno_relevant_exons_sorted.bed"
+# protein regions for PM1 rule as specified by Oza et al. 2018 DOI: 10.1002/humu.23630
+hl_pm1_regions_file: "pm1_regions_hl_hg19.bed"
+
+### Hugo genes ###
+hugo_genes_file: "hgnc_complete_set_strand.txt"
+
+### pathogenic variants for hearing loss that occur in high AF ###
+pheno_high_af_variants_file: "hl_variants.vcf.gz"

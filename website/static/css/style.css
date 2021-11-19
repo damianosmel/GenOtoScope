@@ -1,0 +1,105 @@
+html, body {
+    height: 100%;
+}
+body{
+	background: #f0ffff;
+    display: flex;
+    flex-direction: column;
+}
+main{
+    flex: 1 0 auto;
+    padding-bottom: 20px;
+}
+
+
+.brand-name{
+font-family: Roboto; margin: 0;
+font-size: 2.0em;
+font-style:italic;
+}
+
+.container-fluid-custom{
+background: white;
+border: 6px outset #d3d3d3;
+border-radius: 10px;
+padding: 50px;
+margin-top: 15px;
+margin-bottom: 15px;
+margin-left: 100px;
+margin-right: 100px;
+height: auto;
+box-sizing: border-box;
+overflow: auto;
+}
+
+.container-xl-custom{
+background: white;
+border: 6px outset #d3d3d3;
+border-radius: 10px;
+padding: 10px;
+margin-top: 15px;
+margin-bottom: 15px;
+margin-left: 25px;
+margin-right: 25px;
+}
+
+
+.page           { margin: 2em auto; width: 35em; border: 5px solid #ccc;
+                  padding: 0.8em; background: white; }
+.entries        { list-style: none; margin: 0; padding: 0; }
+.entries li     { margin: 0.8em 1.2em; }
+.entries li h2  { margin-left: -1em; }
+.add-entry      { font-size: 0.9em; border-bottom: 1px solid #ccc; }
+.add-entry dl   { font-weight: bold; }
+.metanav        { text-align: right; font-size: 0.8em; padding: 0.3em;
+                  margin-bottom: 1em; background: #fafafa; }
+.flash          { background: #cee5F5; padding: 0.5em;
+                  border: 1px solid #aacbe2; }
+.error-custom   { background: #f0d6d6; padding: 0.5em; border: 1px solid #aacbe2;}
+
+.navbar-custom {
+    background-color: #f0fff0;
+    padding-top: 0;
+    padding-left: 1;
+    padding-bottom: 0;
+    line-height: 80px;
+    height: 90px;
+}
+
+.blink-element {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.footer {
+    background-color: #f0fff0;
+}
+
+.footer ul.footerleft{
+    margin-left: -25px;
+    margin-top: 10px;
+}
+.footer ul.footerleft li{
+    display: inline;
+    margin-right: 25px;
+}
+
+footer a:hover{
+    text-decoration: none;
+}
+
+.institute:hover {
+     -webkit-transform: scale(1.0);
+     -webkit-transition-duration: 0.5s;
+ }
+
+.institute {
+     -webkit-transform: scale(0.8);
+     color: #222;
+
+ }
