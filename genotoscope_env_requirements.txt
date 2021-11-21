@@ -9,6 +9,7 @@ numpy==1.17.4
 pandas==0.25.3
 pybedtools==0.8.2
 pyensembl==1.9.4
+pyvcf==0.6.8
 PyYAML==6.0
 redis==4.0.1
 rq==1.10.0
