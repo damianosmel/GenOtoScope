@@ -1,0 +1,6 @@
+rule_name,AR,AD,threshold_direction
+PM2,7.00E-05,2.00E-05,lower_than_or_equal
+PM2_Supporting,7.00E-04, NaN,lower
+BA1,0.005,0.001,greater_than_or_equal
+BS1,0.003,0.0002,greater_than_or_equal
+BS1_Supporting,0.0007, NaN,greater_than_or_equal

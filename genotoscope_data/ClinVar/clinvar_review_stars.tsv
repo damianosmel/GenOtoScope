@@ -1,0 +1,9 @@
+Number of gold stars 	Review status 	Description
+four 	practice guideline 	practice guideline
+three 	reviewed by expert panel 	reviewed by expert panel
+two 	criteria provided, multiple submitters, no conflicts 	Two or more submitters with assertion criteria and evidence (or a public contact) provided the same interpretation.
+one 	criteria provided, conflicting interpretations 	Multiple submitters provided assertion criteria and evidence (or a public contact) but there are conflicting interpretations. The independent values are enumerated for clinical significance.
+one 	criteria provided, single submitter 	One submitter provided an interpretation with assertion criteria and evidence (or a public contact).
+none 	no assertion for the individual variant 	The allele was not interpreted directly in any submission; it was submitted to ClinVar only as a component of a haplotype or a genotype.
+none 	no assertion criteria provided 	The allele was included in a submission with an interpretation but without assertion criteria and evidence (or a public contact).
+none 	no assertion provided 	The allele was included in a submission that did not provide an interpretation.
