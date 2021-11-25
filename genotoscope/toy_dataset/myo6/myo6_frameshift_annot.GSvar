@@ -1,0 +1,34 @@
+##CREATION_DATE=2021-09-30
+##FILTER=low_conf_region=Variant marked as 'low_conf_region'.
+##DESCRIPTION=genotype=Genotype of variant in sample.
+##DESCRIPTION=filter=Annotations for filtering and ranking variants.
+##DESCRIPTION=quality=Quality parameters - variant quality (QUAL), depth (DP), allele frequency (AF), mean mapping quality of alternate allele (MQM), probability of strand bias for alternate bases as phred score (SAP), probability of allele ballance as phred score (ABP)
+##DESCRIPTION=gene=Affected gene list (comma-separated).
+##DESCRIPTION=variant_type=Variant type.
+##DESCRIPTION=coding_and_splicing=Coding and splicing details (Gene, ENST number, type, impact, exon/intron number, HGVS.c, HGVS.p, Pfam domain).
+##DESCRIPTION=coding_and_splicing_refseq=Coding and splicing details based on RefSeq (Gene, RefSeq id, type, impact, exon/intron number, HGVS.c, HGVS.p, Pfam domain).
+##DESCRIPTION=regulatory=Regulatory consequence details.
+##DESCRIPTION=OMIM=OMIM database annotation.
+##DESCRIPTION=ClinVar=ClinVar database annotation.
+##DESCRIPTION=HGMD=HGMD database annotation.
+##DESCRIPTION=RepeatMasker=RepeatMasker annotation.
+##DESCRIPTION=dbSNP=Identifier in dbSNP database.
+##DESCRIPTION=1000g=Allele frequency in 1000 genomes project.
+##DESCRIPTION=gnomAD=Allele frequency in gnomAD project.
+##DESCRIPTION=gnomAD_hom_hemi=Homoyzgous counts and hemizygous counts of gnomAD project (genome data).
+##DESCRIPTION=gnomAD_sub=Sub-population allele frequenciens (AFR,AMR,EAS,NFE,SAS) in gnomAD project.
+##DESCRIPTION=phyloP=phyloP (100way vertebrate) annotation. Deleterious threshold > 1.6.
+##DESCRIPTION=Sift=Sift effect prediction and score for each transcript: D=damaging, T=tolerated.
+##DESCRIPTION=PolyPhen=PolyPhen (humVar) effect prediction and score for each transcript: D=probably damaging, P=possibly damaging, B=benign.
+##DESCRIPTION=fathmm-MKL=fathmm-MKL score (for coding/non-coding regions). Deleterious threshold > 0.5.
+##DESCRIPTION=CADD=CADD pathogenicity prediction scores (scaled phred-like). Deleterious threshold > 10-20.
+##DESCRIPTION=REVEL=REVEL pathogenicity prediction score. Deleterious threshold > 0.5.
+##DESCRIPTION=MaxEntScan=MaxEntScan splicing prediction (reference bases score/alternate bases score).
+##DESCRIPTION=dbscSNV=dbscSNV splicing prediction (ADA/RF score).
+##DESCRIPTION=COSMIC=COSMIC somatic variant database anntotation.
+##DESCRIPTION=MMSplice_DeltaLogitPSI=MMsplice delta Logit PSI score: variant's effect on the exon inclusion - positive score shows higher exon inclusion, negative higher exclusion rate. A score greater than 2 or less than -2 can be considered strong.
+##DESCRIPTION=MMSplice_pathogenicity=MMsplice pathogenicity score: probability of pathogenic effect of the variant on splicing
+##DESCRIPTION=SpliceAI=SpliceAI prediction of splice-site variations. Probability of the variant being splice-altering (range from 0-1). The score is the maximum value of acceptor/donor gain/loss of all effected genes.
+##FILTER=low_conf_region=Low confidence region for small variant calling based on gnomAD AC0/RF filters and IMGAG trio/twin data.
+#chr	start	end	ref	obs	genotype	filter	quality	gene	variant_type	coding_and_splicing	coding_and_splicing_refseq	regulatory	OMIM	ClinVar	HGMD	RepeatMasker	dbSNP	1000g	gnomAD	gnomAD_hom_hemi	gnomAD_sub	phyloP	Sift	PolyPhen	fathmm-MKL	CADD	REVEL	MaxEntScan	dbscSNV	COSMIC	MMSplice_DeltaLogitPSI	MMSplice_pathogenicity	SpliceAI
+chr6	76599967	76599967	-	G	het		QUAL=0	MYO6	frameshift	MYO6:ENST00000369975.1:frameshift_variant:HIGH:exon25/31:c.2854dup:p.Glu952GlyfsTer8:,MYO6:ENST00000369977.3:frameshift_variant:HIGH:exon26/35:c.2854dup:p.Glu952GlyfsTer8:,MYO6:ENST00000369981.3:frameshift_variant:HIGH:exon26/35:c.2854dup:p.Glu952GlyfsTer8:,MYO6:ENST00000369985.4:frameshift_variant:HIGH:exon26/33:c.2854dup:p.Glu952GlyfsTer8:	MYO6:NM_001300899.2:frameshift_variant:HIGH:exon26/33:c.2854dup:p.Glu952GlyfsTer8:,MYO6:NM_001368136.1:frameshift_variant:HIGH:exon26/32:c.2854dup:p.Glu952GlyfsTer8:,MYO6:NM_001368137.1:frameshift_variant:HIGH:exon26/34:c.2854dup:p.Glu952GlyfsTer8:,MYO6:NM_001368138.1:frameshift_variant:HIGH:exon26/33:c.2839dup:p.Glu947GlyfsTer8:,MYO6:NM_001368865.1:frameshift_variant:HIGH:exon26/36:c.2854dup:p.Glu952GlyfsTer8:,MYO6:NM_001368866.1:frameshift_variant:HIGH:exon26/35:c.2854dup:p.Glu952GlyfsTer8:,MYO6:NM_004999.4:frameshift_variant:HIGH:exon26/35:c.2854dup:p.Glu952GlyfsTer8:,MYO6:NR_160538.1:non_coding_transcript_exon_variant:MODIFIER:exon27/33:n.3179dup::					GA-rich%20(Low_complexity)																	
