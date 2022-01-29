@@ -4,7 +4,7 @@ GenOtoScope is a bioinformatics tool to classify the pathogenicity of variants a
 
 The official GenOtoScope installation is found at TBA, hosted by [Human Genetics department of Medical School of Hannover](https://www.mhh.de/en/human-genetics).
 
-This work was developed [L3S Research Center](https://www.l3s.de/en), institue of [Leibniz University Hannover](https://www.uni-hannover.de/en/) under the supervision of [Human Genetics department of Medical School of Hannover](https://www.mhh.de/en/human-genetics).
+This work was developed [L3S Research Center](https://www.l3s.de/en), institue of [Leibniz University Hannover](https://www.uni-hannover.de/en/), under the supervision of [Human Genetics department of Medical School of Hannover](https://www.mhh.de/en/human-genetics).
 
 
 ## Documentation
