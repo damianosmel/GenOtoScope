@@ -9,7 +9,7 @@ This work was developed [L3S Research Center](https://www.l3s.de/en), institue o
 
 ## Documentation
 
-User documentation can be found on the [wiki]().
+User documentation can be found on the [wiki](https://github.com/damianosmel/genotoscope_wiki/wiki).
 
 Send your general and usage questions on [GenOtoScope Google group](https://groups.google.com/g/genotoscope/).
 
@@ -20,4 +20,5 @@ Submit your bug reports on [repository issues](https://github.com/damianosmel/Ge
 
 GenOtoScope is copyright (c) 2021-2022 by Medical School of Hannover and L3S Research Center.
 
-GenOtoScope is licensed under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html). Please contact the authors to discuss custom licensing.
+GenOtoScope is licensed under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html).
+Please contact the authors to discuss how to contribute on this project or for a custom licensing.
