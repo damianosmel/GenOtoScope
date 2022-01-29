@@ -1,5 +1,6 @@
 # GenOtoScope
 
+## About
 GenOtoScope is a bioinformatics tool to classify the pathogenicity of variants associated with hearing loss, based on ACMG/AMP guidelines.
 
 The official GenOtoScope installation is found at TBA, hosted by [Human Genetics department of Medical School of Hannover](https://www.mhh.de/en/human-genetics).
