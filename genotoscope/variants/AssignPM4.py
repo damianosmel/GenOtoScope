@@ -375,7 +375,7 @@ class AssignPM4:
 			else:
 				obs_prot_len = self.calculate_observed_protein_length(variant_info)
 			ref_prot_len = len(transcript.protein_sequence)
-			prot_change_ratio = abs(obs_prot_len - ref_prot_len) / ref_prot_len > 0.1
+			prot_change_ratio = abs(obs_prot_len - ref_prot_len) / ref_prot_len
 			self.logger.debug("Protein change ratio: {}".format(prot_change_ratio))
 
 			if transcript.protein_sequence and prot_change_ratio > 0.1:
