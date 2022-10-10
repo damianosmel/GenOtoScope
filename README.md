@@ -30,6 +30,22 @@ Send your general and usage questions on [GenOtoScope Google group](https://grou
 
 Submit your bug reports on [repository issues](https://github.com/damianosmel/GenOtoScope/issues).
 
+## Citation
+This repository is the implementation of the research work: "*GenOtoScope: Towards automating ACMG classification of variants associated with congenital hearing loss*" ([link](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009785)).
+
+Please, cite as:
+```
+@article{melidis2022genotoscope,
+  title={GenOtoScope: Towards automating ACMG classification of variants associated with congenital hearing loss},
+  author={Melidis, Damianos P and Landgraf, Christian and Schmidt, Gunnar and Sch{\"o}ner-Heinisch, Anja and von Hardenberg, Sandra and Lesinski-Schiedat, Anke and Nejdl, Wolfgang and Auber, Bernd},
+  journal={PLOS Computational Biology},
+  volume={18},
+  number={9},
+  pages={e1009785},
+  year={2022},
+  publisher={Public Library of Science San Francisco, CA USA}
+}
+```
 
 ## Copyright
 
