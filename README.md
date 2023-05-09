@@ -17,7 +17,7 @@ The usage documentation of the CLI can be found at the [wiki](https://github.com
 
 ## Web application
 
-To classify single variants of interest, use the web application.
+To classify single variants of interest, use the [web application](https://genotoscope.mh-hannover.de:5000/).
 
 The GenOtoScope web interface is hosted by the [Human Genetics department of Medical School of Hannover](https://www.mhh.de/en/human-genetics) at: [GenOtoScope web](http://193.174.104.231:5000/home).
 
