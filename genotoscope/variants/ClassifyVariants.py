@@ -505,15 +505,19 @@ class ClassifyVariants:
 			# check if NGSD classification is not found in the column
 			ngsd_class = "NGSD: not classified category"
 			ngsd_comment = "NGSD: not available field"
-		elif isnan(variants["classification"]):
+		elif isinstance(variants["classification"],float):
+			if float(variants["classification"]) < 3:
+				ngsd_class = "NGSD: discard variant"
+				ngsd_comment = "NGSD: classification <3"
+			else:
+				ngsd_class = "NGSD: already classified category={}".format(variants["classification"])
+				ngsd_comment = "NGSD: already classified variant"
+		elif isinstance(variants["classification"],str):
+			ngsd_class = "NGSD: already classified with string class={}".format(variants["classification"])
+			ngsd_comment = "NGSD: string class as classification"
+		else:
 			ngsd_class = "NGSD: not classified category"
 			ngsd_comment = "NGSD: database does not contain classified category for variant"
-		elif float(variants["classification"]) < 3:
-			ngsd_class = "NGSD: discard variant"
-			ngsd_comment = "NGSD: classification <3"
-		else:
-			ngsd_class = "NGSD: already classified category={}".format(variants["classification"])
-			ngsd_comment = "NGSD: already classified variant"
 		# update assigned class and comment
 		variants["ACMG_rules"] = ngsd_class
 		variants["ACMG_rules_comment"] = ngsd_comment
