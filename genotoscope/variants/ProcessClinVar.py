@@ -192,12 +192,19 @@ class ProcessClinVar:
 		                           var_genomic_end, var_ref, var_obs)
 		# filter out transcripts not containing start codon information
 		filtered_transcripts_info = self.filter_transcripts_by_info(variant_info, "start_codon")
-
+		if self.logger.getEffectiveLevel() == "DEBUG":
+			self.logger.debug(f'Filtered transcripts:')
+			for transcript_filtered in filtered_transcripts_info:
+				self.logger.debug('Filtered transcript info: {}'.format(transcript_filtered))
 		# arrange affected transcripts per variant type
 		# then run PS1 and PM5 rules examination for all transcripts
 		ps1_pm5_variant_types = set(["missense"])
 		transcripts_per_var_type = arrange_transcripts_per_variant_type(variant_types, filtered_transcripts_info,
 		                                                                ps1_pm5_variant_types)
+		if self.logger.getEffectiveLevel() == "DEBUG":
+			self.logger.debug(f'Arranged transcripts:')
+			for transcript_arranged in transcripts_per_var_type:
+				self.logger.debug('Arranged transcript info: {}'.format(transcript_arranged))
 		aggregated_PS1_PM5_rules, aggregated_PS1_PM5_comment = "PS1: NA||PM5: NA", "PS1 not applicable || PM5 not applicable for this variant type"
 
 		for var_type, transcripts_info in transcripts_per_var_type.items():
@@ -407,14 +414,21 @@ class ProcessClinVar:
 		"""
 		filtered_transcripts_info = []
 		for transcript_info in variant_info.transcripts_info:
-			transcript = self.ensembl_data.transcript_by_id(transcript_info["transcript_id"])
-			if info_name == "start_codon":
-				if transcript.contains_start_codon:
-					filtered_transcripts_info.append(transcript_info)
-				elif variant_info.chrom == "chrMT":
-					# affected variant on mitochondrial gene
-					# => coding sequence is the whole transcript sequence
-					filtered_transcripts_info.append(transcript_info)
+			self.logger.debug('Searching transcript with ID: {} in the db.'.format(transcript_info["transcript_id"]))
+			try:
+				transcript = self.ensembl_data.transcript_by_id(transcript_info["transcript_id"])
+				if info_name == "start_codon":
+					if transcript.contains_start_codon:
+						filtered_transcripts_info.append(transcript_info)
+					elif variant_info.chrom == "chrMT":
+						# affected variant on mitochondrial gene
+						# => coding sequence is the whole transcript sequence
+						filtered_transcripts_info.append(transcript_info)
+			except ValueError:
+				self.logger.error(
+					"Transcript id: {} not found in ensembl db.\n=> variant position: {}".format(
+					transcript_info["transcript_id"], variant_info.to_string()), exc_info=True)
+
 		# else:
 		# print("exclude transcript id:{}, as it does not contain start codon".format(
 		# 	transcript_info["transcript_id"]))
@@ -491,7 +505,7 @@ class ProcessClinVar:
 				                         variant_info.genomic_start + 1]
 				var_codon_coding_pos = [var_start - 1, var_start, var_start + 1]
 			self.logger.debug("var_codon_genomic_pos: {}".format(var_codon_genomic_pos))
-
+			self.logger.debug("var_codon_coding_pos: {}".format(var_codon_coding_pos))
 			# get the transcript strand
 			if RefineLossOfFunction.is_transcript_in_positive_strand(transcript):
 				var_strand = "+"
@@ -510,15 +524,21 @@ class ProcessClinVar:
 			try:
 				# use the coding sequence attribute
 				codon_seq_ref = transcript.coding_sequence[var_codon_coding_pos[0] - 1:var_codon_coding_pos[-1]]
+				self.logger.debug("Use coding_sequence attribute for transcript id: {}".format(
+					transcript_info["transcript_id"]))
 			except ValueError:
 				# solve value error by using the sequence attribute instead
 				# Pyensembl returned ValueError for current transcript with id (seen for mitochondrial genes)
 				codon_seq_ref = transcript.sequence[var_codon_coding_pos[0] - 1: var_codon_coding_pos[-1]]
 				self.logger.debug("Use sequence attribute instead of coding_sequence for transcript id: {}".format(
 					transcript_info["transcript_id"]))
+			seq_ref = transcript.sequence[var_codon_coding_pos[0] - 1: var_codon_coding_pos[-1]]
+
 			### ### ### ### ### ### ### ### ###
 			# create observed codon sequence  #
 			### ### ### ### ### ### ### ### ###
+			self.logger.debug('Coding sequence REF: {}'.format(codon_seq_ref))
+			self.logger.debug('Sequence REF: {}'.format(seq_ref))
 			if var_codon_pos == 3:  # variant on the last position of the codon
 				codon_seq_obs = [char for char in codon_seq_ref[0:2]] + [variant_info.obs_base]
 			elif var_codon_pos == 1:  # variant on the first position of the codon

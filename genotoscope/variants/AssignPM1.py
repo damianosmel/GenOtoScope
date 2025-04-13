@@ -141,72 +141,77 @@ class AssignPM1:
 			# 3) check if variant intersects a hearing loss specific protein region
 			# a) examine for hit between the self.pm1_regions and the variant interval object
 			# b) variant overlaps collagen Gly-X-Y motifs, check if disrupts a Glycine site (Oza et al. DOI: 10.1002/humu.23630)
-			transcript = self.ensembl_data.transcript_by_id(transcript_info["transcript_id"])
+			try:
+				transcript = self.ensembl_data.transcript_by_id(transcript_info["transcript_id"])
 
-			# get affected transcript strand
-			transcript_strand = transcript.exons[0].to_dict()["strand"]
-			if transcript_strand not in strand2PM1:
-				# assess PM1 rule for unseen strand
-				# create bed variant interval object
-				variant_interval = \
-					BedTool(variant_info.create_bed_line(transcript_strand, "6columns"), from_string=True)[0]
-				pm1_hit_comments = []
-				# 2) examine overlap with critical regions without benign
-				hits2critical_regions = self.critical_regions_no_benign.all_hits(variant_interval, same_strand=True)
+				# get affected transcript strand
+				transcript_strand = transcript.exons[0].to_dict()["strand"]
+				if transcript_strand not in strand2PM1:
+					# assess PM1 rule for unseen strand
+					# create bed variant interval object
+					variant_interval = \
+						BedTool(variant_info.create_bed_line(transcript_strand, "6columns"), from_string=True)[0]
+					pm1_hit_comments = []
+					# 2) examine overlap with critical regions without benign
+					hits2critical_regions = self.critical_regions_no_benign.all_hits(variant_interval, same_strand=True)
 
-				### ### ###
-				# 3) examine overlap with hearing loss specific protein domains
-				### ### ###
-				hits2pm1_regions = self.pm1_regions.all_hits(variant_interval, same_strand=True)
-				var_overlaps_pm1_regions = False
-				if len(hits2pm1_regions) > 0:
-					# 3b) if variant overlaps collagen regions then check if affects Glysine residue on this region
-					hit_in_KCNQ4, hit_disrupts_GlyXY = False, False
-					for hit in hits2pm1_regions:
-						# if hit on collagen Gly-X-Y domains in COL11A2, COL4A3, COL4A4, COL4A5 genes
-						if hit.name in ["P53420", "A0A2R8Y2F0", "A0A2R8Y6E5", "Q01955", "A0A0C4DFS1", "H0YIS1",
-						                "Q4VXY6", "P29400", "H0Y9R8"]:
-							self.logger.debug("Variant in collagen region")
-							if transcript_info["var_protein"]:
-								if transcript_info["var_protein"][0:3] == "Gly":
-									hit_disrupts_GlyXY = True
-									pm1_hit_comments.append("variant disrupts Glysine residue in " + hit.name)
+					### ### ###
+					# 3) examine overlap with hearing loss specific protein domains
+					### ### ###
+					hits2pm1_regions = self.pm1_regions.all_hits(variant_interval, same_strand=True)
+					var_overlaps_pm1_regions = False
+					if len(hits2pm1_regions) > 0:
+						# 3b) if variant overlaps collagen regions then check if affects Glysine residue on this region
+						hit_in_KCNQ4, hit_disrupts_GlyXY = False, False
+						for hit in hits2pm1_regions:
+							# if hit on collagen Gly-X-Y domains in COL11A2, COL4A3, COL4A4, COL4A5 genes
+							if hit.name in ["P53420", "A0A2R8Y2F0", "A0A2R8Y6E5", "Q01955", "A0A0C4DFS1", "H0YIS1",
+											"Q4VXY6", "P29400", "H0Y9R8"]:
+								self.logger.debug("Variant in collagen region")
+								if transcript_info["var_protein"]:
+									if transcript_info["var_protein"][0:3] == "Gly":
+										hit_disrupts_GlyXY = True
+										pm1_hit_comments.append("variant disrupts Glysine residue in " + hit.name)
+							else:
+								# variant overlaps pore-forming intramembrane region of KCNQ4 gene
+								hit_in_KCNQ4 = True
+								pm1_hit_comments.append("variant overlaps region " + hit.name + " in KCNQ4 gene")
+						if hit_in_KCNQ4 or hit_disrupts_GlyXY:
+							var_overlaps_pm1_regions = True
 						else:
-							# variant overlaps pore-forming intramembrane region of KCNQ4 gene
-							hit_in_KCNQ4 = True
-							pm1_hit_comments.append("variant overlaps region " + hit.name + " in KCNQ4 gene")
-					if hit_in_KCNQ4 or hit_disrupts_GlyXY:
-						var_overlaps_pm1_regions = True
+							var_overlaps_pm1_regions = False
+
+					### ### ###
+					# assign PM1, based on found overlaps
+					### ### ###
+					if var_overlaps_pm1_regions or len(hits2critical_regions):
+						current_transcript_class = "True"
+						if not var_overlaps_pm1_regions:
+							# add comment for overlap of critical regions without benign mutation
+							pm1_hit_comments.append("variant overlaps critical regions in protein ids= [" + ",".join(
+								[hit.name for hit in hits2critical_regions]) + "] without benign mutation")
+						current_transcript_comment = ": " + " ".join(pm1_hit_comments)
 					else:
-						var_overlaps_pm1_regions = False
+						current_transcript_class = "False"
+						current_transcript_comment = ": variant does not intersect critical regions without benign, neither hearing loss specified protein domains"
+					# save PM1 assignment for all affected transcript having the same transcript strand
+					strand2PM1[transcript_strand] = [transcript.id, current_transcript_class, current_transcript_comment]
 
 				### ### ###
-				# assign PM1, based on found overlaps
+				# append assignment of current transcript
 				### ### ###
-				if var_overlaps_pm1_regions or len(hits2critical_regions):
-					current_transcript_class = "True"
-					if not var_overlaps_pm1_regions:
-						# add comment for overlap of critical regions without benign mutation
-						pm1_hit_comments.append("variant overlaps critical regions in protein ids= [" + ",".join(
-							[hit.name for hit in hits2critical_regions]) + "] without benign mutation")
-					current_transcript_comment = ": " + " ".join(pm1_hit_comments)
+				if transcript.id == strand2PM1[transcript_strand][0]:
+					# PM1 was evaluated for this transcript
+					assigned_PM1_per_transcript.append(strand2PM1[transcript_strand][1])
+					assignment_comment_per_transcript.append(str(transcript.id) + strand2PM1[transcript_strand][2])
 				else:
-					current_transcript_class = "False"
-					current_transcript_comment = ": variant does not intersect critical regions without benign, neither hearing loss specified protein domains"
-				# save PM1 assignment for all affected transcript having the same transcript strand
-				strand2PM1[transcript_strand] = [transcript.id, current_transcript_class, current_transcript_comment]
-
-			### ### ###
-			# append assignment of current transcript
-			### ### ###
-			if transcript.id == strand2PM1[transcript_strand][0]:
-				# PM1 was evaluated for this transcript
-				assigned_PM1_per_transcript.append(strand2PM1[transcript_strand][1])
-				assignment_comment_per_transcript.append(str(transcript.id) + strand2PM1[transcript_strand][2])
-			else:
-				# PM1 was evaluated for another transcript of the same gene
-				assigned_PM1_per_transcript.append(strand2PM1[transcript_strand][1])
-				assignment_comment_per_transcript.append(
-					str(transcript.id) + ": PM1 was evaluated for transcript id: " + str(
-						strand2PM1[transcript_strand][0]))
+					# PM1 was evaluated for another transcript of the same gene
+					assigned_PM1_per_transcript.append(strand2PM1[transcript_strand][1])
+					assignment_comment_per_transcript.append(
+						str(transcript.id) + ": PM1 was evaluated for transcript id: " + str(
+							strand2PM1[transcript_strand][0]))
+			except ValueError:
+				self.logger.error(
+					"Transcript id: {} not found in ensembl db.\n=> variant position: {}".format(
+					transcript_info["transcript_id"], variant_info.to_string()), exc_info=True)
 		return aggregate_examined_rules(assigned_PM1_per_transcript, assignment_comment_per_transcript, "PM1")

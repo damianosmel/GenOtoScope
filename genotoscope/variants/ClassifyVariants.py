@@ -1768,7 +1768,7 @@ class ClassifyVariants:
 		logged_processed_percentage = 0
 		for var_idx, var_row in variants.iterrows():
 			if "missense" in str(var_row["variant_type"]):
-				# self.logger.debug("Run PS1 and PM5 for variant: {}".format(AnnotateVariants.var_pos2string(var_row)))
+				self.logger.debug("Run PS1 and PM5 for variant with annotations: {}".format(var_row["coding_and_splicing"]))
 				ACMG_rules, ACMG_rules_comment = processClinVar.run(self.current_sample_name, str(var_row["chr"]),
 				                                                    int(var_row["start"]),
 				                                                    int(var_row["end"]), str(var_row["gene"]),

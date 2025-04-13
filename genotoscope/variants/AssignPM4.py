@@ -72,10 +72,15 @@ class AssignPM4:
 		# self.logger.debug("Filter out transcripts by {}".format(info_name.replace("_"," ")))
 		filtered_transcripts_info = []
 		for transcript_info in variant_info.transcripts_info:
-			transcript = self.ensembl_data.transcript_by_id(transcript_info["transcript_id"])
-			if info_name == "stop_codon":
-				if transcript.contains_stop_codon:
-					filtered_transcripts_info.append(transcript_info)
+			try:
+				transcript = self.ensembl_data.transcript_by_id(transcript_info["transcript_id"])
+				if info_name == "stop_codon":
+					if transcript.contains_stop_codon:
+						filtered_transcripts_info.append(transcript_info)
+			except ValueError:
+				self.logger.error(
+					"Transcript id: {} not found in ensembl db.\n=> variant position: {}".format(
+					transcript_info["transcript_id"], variant_info.to_string()), exc_info=True)
 		return filtered_transcripts_info
 
 	def run(self, sample_name, chrom, var_start, var_end, gene_name, var_ref, var_obs, variant_type,

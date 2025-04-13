@@ -166,18 +166,23 @@ class RefineLossOfFunction:
 		self.logger.debug("Filter transcripts: {}".format(transcripts_info))
 		filtered_transcripts_info = []
 		for transcript_info in transcripts_info:
-			transcript = self.ensembl_data.transcript_by_id(transcript_info["transcript_id"])
-			if info_name == "start_codon":
-				if transcript.contains_start_codon:
-					filtered_transcripts_info.append(transcript_info)
-			elif info_name == "exon_info":
-				if transcript_info['exon'] != '':
-					filtered_transcripts_info.append(transcript_info)
-			elif info_name == "start_stop_codons":
-				if transcript.contains_start_codon and transcript.contains_stop_codon:
-					filtered_transcripts_info.append(transcript_info)
-			else:
-				self.logger.debug("Remove transcript with id: {}".format(transcript_info["transcript_id"]))
+			try:
+				transcript = self.ensembl_data.transcript_by_id(transcript_info["transcript_id"])
+				if info_name == "start_codon":
+					if transcript.contains_start_codon:
+						filtered_transcripts_info.append(transcript_info)
+				elif info_name == "exon_info":
+					if transcript_info['exon'] != '':
+						filtered_transcripts_info.append(transcript_info)
+				elif info_name == "start_stop_codons":
+					if transcript.contains_start_codon and transcript.contains_stop_codon:
+						filtered_transcripts_info.append(transcript_info)
+				else:
+					self.logger.debug("Remove transcript with id: {}".format(transcript_info["transcript_id"]))
+			except ValueError:
+				self.logger.error(
+					"Transcript id: {} not found in ensembl db.".format(
+						transcript_info["transcript_id"]), exc_info=True)
 		return filtered_transcripts_info
 
 	@staticmethod
