@@ -89,12 +89,12 @@ def extract_gene_strands(data_path, hugo_genes_filename, ensembl_db, update_file
 
 
 ### data ###
-path_root = "/home/damian/Documents/L3S/projects/hearing4all/human_genetics"
-data_path = join(path_root, "data")
+path_root = "/home/damian/Documents/L3S/projects/hearing4all/human_genetics/genotoscope_data/misc/hgnc_genes_info"
+data_path = join(path_root, "apr_2025")
 hugo_genes_file = "hgnc_complete_set.txt"
 
 ### PyEnsembl ###
-# release 75 uses human reference genome GRCh37
-ensembl_data = EnsemblRelease(75)
+# release 108 uses human reference genome GRCh38
+ensembl_data = EnsemblRelease(108)
 
 extract_gene_strands(data_path, hugo_genes_file, ensembl_data, update_file=True)
