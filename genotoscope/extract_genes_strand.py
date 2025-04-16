@@ -21,21 +21,17 @@ def extract_strand(hugo_gene_row, ensembl_db):
 	"""
 	### ### ### ###
 	# get ensembl id of gene row
-	# use the ensembl id to get its trancripts
+	# use the ensembl id to get its transcripts
 	# and finally extract the strand of the gene's transcript
 	### ### ### ###
 	ensembl_gene_id = hugo_gene_row["ensembl_gene_id"]
+	gene_strand = 'unknown'
 	try:
-		transcript_ids = ensembl_db.transcript_ids_of_gene_id(ensembl_gene_id)
+		gene = ensembl_db.gene_by_id(ensembl_gene_id)
+		gene_strand = gene.strand
 	except ValueError as ve:
-		transcript_ids = []
-		print("Pyensembl does not contain transcript ids for gene id: {}".format(ensembl_gene_id))
-	finally:
-		if len(transcript_ids) > 0:
-			transcript = ensembl_data.transcript_by_id(transcript_ids[0])
-			return transcript.exons[0].to_dict()["strand"]
-		else:
-			return "unknown"
+		print(f'Pyensembl does not contain gene with input gene id: {ve}')
+	return gene_strand
 
 
 def extract_gene_strands(data_path, hugo_genes_filename, ensembl_db, update_file=False):
@@ -94,7 +90,7 @@ data_path = join(path_root, "apr_2025")
 hugo_genes_file = "hgnc_complete_set.txt"
 
 ### PyEnsembl ###
-# release 108 uses human reference genome GRCh38
+# Ensembl release 108 (Oct. 2022) uses the human genome reference GRCh38
 ensembl_data = EnsemblRelease(108)
 
 extract_gene_strands(data_path, hugo_genes_file, ensembl_data, update_file=True)
