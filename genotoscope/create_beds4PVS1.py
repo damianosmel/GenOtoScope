@@ -13,31 +13,36 @@ from os.path import join
 ### ### ###
 # input and output paths
 ### ### ###
-# local machine #
-# data_path = "/home/damian/Documents/L3S/projects/hearing4all/human_genetics/data"
-# server #
-data_path = "/home/melidis/hearing_genomics/data"
-output_path = "beds4autoPVS1"
 
-'''
+### ### ###
+#  input  #
+### ### ###
 ### ### ###
 # ClinVar.vcf + UniProt domain annotations => critical regions of protein
 ### ### ###
 
+# local machine #
+data_path = "/home/damian/Documents/L3S/projects/hearing4all/human_genetics/genotoscope_data"
+# server #
+# data_path = "/home/melidis/hearing_genomics/data"
+
 ### ClinVar ###
 clinvar_path = "ClinVar"
-clinvar_version = "clinvar_mar_2021"
-clinvar_file = "clinvar_20210323.vcf.gz"
+clinvar_version = "clinvar_apr_2025"
+clinvar_file = "clinvar_20250409.vcf.gz"
 clinvar_stars_file = "clinvar_review_stars.tsv"
 
 ### UniProt ###
-uniprot_dir = join(data_path, "uniprot_annotations")
-uniprot_version = "uniprot_feb_2021"
+uniprot_dir = join(data_path, "uniprot")
+uniprot_version = "uniprot_feb_2025"
 uniprot_dir = join(uniprot_dir,uniprot_version)
-uniprot_domains_path = join(uniprot_dir, "UP000005640_9606_domain_hg19.bed")
+uniprot_domains_path = join(uniprot_dir, "UP000005640_9606_domain.bed")
 
 ### Hugo genes ###
+hugo_genes_directory = join("misc", "hgnc_genes_info")
+hugo_genes_directory = join(hugo_genes_directory, "apr_2025")
 hugo_genes_file = "hgnc_complete_set_strand.txt"
+hugo_genes_path = join(hugo_genes_directory,hugo_genes_file)
 
 ### ### ###
 # Parameters
@@ -45,14 +50,19 @@ hugo_genes_file = "hgnc_complete_set_strand.txt"
 min_review_stars = 2  # ClinVar minimum review stars
 
 ### ### ###
+# output  #
+### ### ###
+
+output_path = 'annotation_beds'
+### ### ###
 # Find critical protein region
 ### ### ###
-CriticalProteinsRegions = FindCriticalProteinRegions(data_path, clinvar_path, clinvar_file, clinvar_stars_file,
-                                                     clinvar_version,uniprot_domains_path, uniprot_version, hugo_genes_file,
+critical_protein_regions = FindCriticalProteinRegions(data_path, clinvar_path, clinvar_file, clinvar_stars_file,
+                                                     clinvar_version,uniprot_domains_path, uniprot_version, hugo_genes_path,
                                                      output_path)
-CriticalProteinsRegions.run(min_review_stars)
-'''
+critical_protein_regions.run(min_review_stars)
 
+'''
 ###
 # gnomAD.exomes.vcf + all pLoF variants => clinical significant exons
 ###
@@ -74,3 +84,4 @@ gnomAD_pLoF_file = join(gnomAD_path, "gnomad.v2.1.1.all_lofs.txt")
 
 FindClinicalSignificantExons = FindClinicalSignificantExons(data_path, gnomAD_version, gnomAD_exomes_file, output_path)
 FindClinicalSignificantExons.run(gnomAD_pLoF_file)
+'''

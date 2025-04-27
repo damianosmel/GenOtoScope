@@ -14,7 +14,7 @@ import pickle
 
 plt.style.use('seaborn-paper')
 
-
+SIGNIFICANCE_VALUES_RESTRICTED = ('Uncertain_significance','Likely_benign','Benign','Likely_pathogenic','Pathogenic')
 class FindCriticalProteinRegions:
 	"""
 	Use ClinVar vcf file and UniProt domain annotation track to find critical regions for protein function
@@ -29,7 +29,7 @@ class FindCriticalProteinRegions:
 	"""
 
 	def __init__(self, data_path, clinvar_path, clinvar_file, clinvar_review_stars_file, clinvar_version, uniprot_domains_path,
-	             uniprot_version,hugo_genes_file, output_path):
+	             uniprot_version,hugo_genes_path, output_path):
 		"""
 		FindCriticalProteinRegions contructor
 
@@ -49,8 +49,8 @@ class FindCriticalProteinRegions:
 			absolute path of uniprot domains file
 		uniprot_version : str
 			uniprot version
-		hugo_genes_file : str
-			hugo genes file name
+		hugo_genes_path : str
+			hugo genes path (partial)
 		output_path : str
 			output path, where resulted bed files will be saved
 
@@ -79,11 +79,11 @@ class FindCriticalProteinRegions:
 		self.uniprot_domains = self.load_uniprot_annotation_file(uniprot_domains_path)
 
 		### PyEnsembl ###
-		# release 75 uses human reference genome GRCh37
-		self.ensembl_data = EnsemblRelease(75)
+		# Ensembl release 108 (Oct. 2022) uses the human genome reference GRCh38
+		self.ensembl_data = EnsemblRelease(108)
 
 		### Hugo genes ###
-		self.hugo_genes_df = load_hugo_genes_df(self.data_path, hugo_genes_file)
+		self.hugo_genes_df = load_hugo_genes_df(self.data_path, hugo_genes_path)
 
 	def load_uniprot_annotation_file(self, uniprot_annotations_path):
 		"""
@@ -92,7 +92,7 @@ class FindCriticalProteinRegions:
 		Parameters
 		----------
 		uniprot_annotations_path : str
-			UniProt annonations path
+			UniProt annotations path
 
 		Returns
 		-------
@@ -161,15 +161,14 @@ class FindCriticalProteinRegions:
 		'''
 		### create the significance summary of the ClinVars intersecting domains ###
 		significance_summary = self.summarize_significance(domain_clinvars)
-		# for significance, counts_per_review in significance_summary.items():
-		# 	print("significance: {}".format(significance))
-		# 	print("counts: {}".format(counts_per_review))
+		significance_summary_restricted = {significance: counts_per_review for significance, counts_per_review in significance_summary.items() if significance in SIGNIFICANCE_VALUES_RESTRICTED}
+		print(f'Summary of significancies (restricted values): {significance_summary_restricted}')
 
 		### plot the significance summary ###
 		use_review_status = True
-		self.plot_significance(significance_summary, use_review_status)
+		self.plot_significance(significance_summary_restricted, use_review_status)
 		use_review_status = False
-		self.plot_significance(significance_summary, use_review_status)
+		self.plot_significance(significance_summary_restricted, use_review_status)
 		'''
 		### ### ###
 		# identify the important truncated/altered regions
@@ -249,13 +248,10 @@ class FindCriticalProteinRegions:
 		### ### ###
 		# accept annotation with correct chromosome name
 		### ### ###
-		if fields[0].split("chr")[1].isdigit():
-			annotation = {'chr': fields[0], 'start': int(fields[1]), 'end': int(fields[2]), 'strand': fields[5].strip(),
-		              'uniprot_id': fields[3],
-		              'uniprot_description': description}
-			return annotation
-		else:
-			return None
+		annotation = {'chr': fields[0], 'start': int(fields[1]), 'end': int(fields[2]), 'strand': fields[5].strip(),
+				  'uniprot_id': fields[3],
+				  'uniprot_description': description}
+		return annotation
 
 	def extract_clinvars(self, annotation):
 		"""
@@ -271,14 +267,15 @@ class FindCriticalProteinRegions:
 		list of dict of str: int or str or list of str
 			extracted clivnar entries
 		"""
-		print("Extract ClinVar variants for input annotation")
 		if annotation:
-			chr, start, end = annotation["chr"].split("chr")[1], annotation["start"] - 1, annotation["end"]
-			print("chr={},start={},end={}".format(chr,start,end))
+			if 'MT' in annotation['chr']:
+				chr = annotation["chr"]
+			else:
+				chr = annotation["chr"].split("chr")[1]
+			start, end = annotation["start"] - 1, annotation["end"]
 			matched_clinvars = list(self.vcf_reader.fetch(chr, start, end))
 
 			if len(matched_clinvars) > 0:
-				print("Found {} matching ClinVar entries".format(len(matched_clinvars)))
 				extracted_clinvars = []
 				for clinvar_rec in matched_clinvars:
 					genes_info = normalize_gene_info(clinvar_rec)
@@ -696,7 +693,6 @@ class FindCriticalProteinRegions:
 					significance_summary[current_significance][current_review_status] = 1
 				else:
 					significance_summary[current_significance][current_review_status] += 1
-		# print("Significance summary: {}".format(significance_summary))
 		return significance_summary
 
 	def quality_filter_clinvars(self, clinvars, min_review_stars):
@@ -715,12 +711,10 @@ class FindCriticalProteinRegions:
 		list of dict of str: int or str or list of str
 			filtered clinvar entries
 		"""
-		print("Filter ClinVar by review stars")
 		filtered_clinvars = []
 		for clinvar in clinvars:
 			if clinvar['CLNREVSTAT'] >= min_review_stars:
 				filtered_clinvars.append(clinvar)
-		print("Filtered in {} ClinVar entries".format(len(filtered_clinvars)))
 		return filtered_clinvars
 
 	def aggregate_clinvars_per_domain(self, min_review_stars):
@@ -749,10 +743,8 @@ class FindCriticalProteinRegions:
 			# a) extract clinvar entries for this domain range
 			clinvars = self.extract_clinvars(domain_annotation)
 			if clinvars:
-				print("dom: {} {} {}".format(domain_annotation['chr'], domain_annotation['start'], domain_annotation['end']))
 				# b) filter extracted entries by review quality
 				filtered_clinvars = self.quality_filter_clinvars(clinvars, min_review_stars)
 				if len(filtered_clinvars) > 0:
 					domain_clinvars.append({'bed': domain_annotation, 'clinvar': filtered_clinvars})
-		print("---")
 		return domain_clinvars
