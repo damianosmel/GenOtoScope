@@ -40,8 +40,8 @@ class ExtractPhenoTranscripts:
 		create_dir(self.output_dir)
 
 		### PyEnsembl ###
-		# release 75 uses human reference genome GRCh37
-		self.ensembl_data = EnsemblRelease(75)
+		# Ensembl release 108 (Oct. 2022) uses the human genome reference GRCh38
+		self.ensembl_data = EnsemblRelease(108)
 
 	def get_gene_chr(self, gene_name):
 		"""
@@ -199,35 +199,35 @@ class ExtractPhenoTranscripts:
 		# for each gene get the chromosome number
 		# and then save all exons of the transcripts to an list
 		pheno_relevant_exons = []
-		genes_transcripts_df = pheno_transcripts_df.iloc[:, 0:2]
 		gene_transcripts_exons_df = pheno_transcripts_df.iloc[:, 0:4]
-		extract_stats = {"uniq_genes": set(), "uniq_trans": set(), "uniq_exons": set(), "grch38_only": set(),
+		extract_stats = {"uniq_genes": set(), "uniq_trans": set(), "uniq_exons": set(), "transcript_id_unused":set(),
 		                 "no_distinct_exons": set(), "already_added": set()}
 
 		for gene_name, row in gene_transcripts_exons_df.iterrows():
-			if row["comment"] == "only_grch38":
-				# exclude current transcript, as is found only on GRCh38
-				extract_stats["grch38_only"].add(row["ensembl GRCh37.p13"].strip())
-			elif row["comment"] == "transcript_already_included":
+			comments = {comment.strip() for comment in str(row["comment"]).split(',')}
+			if comments.intersection(['transcript_id_retired','transcript_id_not_found']):
+				# exclude current transcript, as its id is not in use anymore by ensembl
+				extract_stats["transcript_id_unused"].add(row["ensembl GRCh38.p14"].strip())
+			elif "transcript_already_included" in comments:
 				# exclude current transcript, as it is already added
-				extract_stats["already_added"].add(row["ensembl GRCh37.p13"].strip())
-			elif row["clinical_exons"] == "no_distinct_coding_exons":
+				extract_stats["already_added"].add(row["ensembl GRCh38.p14"].strip())
+			elif "no_distinct_coding_exons" in comments:
 				# exclude current transcript, as it does not contain distinct exons
-				extract_stats["no_distinct_exons"].add(row["ensembl GRCh37.p13"].strip())
+				extract_stats["no_distinct_exons"].add(row["ensembl GRCh38.p14"].strip())
 			else:
 				extract_stats["uniq_genes"].add(gene_name)
 				# get transcript and chromosome info
-				if len(row["ensembl GRCh37.p13"].split(".")[0]) > 1:
-					transcript_id = row["ensembl GRCh37.p13"].split(".")[0]
+				if len(row["ensembl GRCh38.p14"].split(".")[0]) > 1:
+					transcript_id = row["ensembl GRCh38.p14"].split(".")[0]
 				else:
-					transcript_id = row["ensembl GRCh37.p13"]
+					transcript_id = row["ensembl GRCh38.p14"]
 				extract_stats["uniq_trans"].add(transcript_id)
-				transcript_chrom = self.get_gene_chr(gene_name)
+				transcript_chrom = str(self.get_gene_chr(gene_name))
 				transcript = self.ensembl_data.transcript_by_id(transcript_id)
 
 				# get clinical exons
 				clinical_exons = ExtractPhenoTranscripts.parse_exons_index(str(row["clinical_exons"]))
-				# understand if you need to only include exons or only exlude
+				# understand if you need to only include exons or only exclude
 				if len(clinical_exons["include"]) > 0:
 					include_or_exclude = 0
 				elif len(clinical_exons["exclude"]) > 0:
@@ -238,7 +238,7 @@ class ExtractPhenoTranscripts:
 							extract_stats["uniq_exons"].add(exon.id)
 							pheno_relevant_exons.append(
 								"\t".join(
-									["chr" + transcript_chrom, str(exon.to_dict()["start"]), str(exon.to_dict()["end"]),
+									["chr" + str(transcript_chrom), str(exon.to_dict()["start"]), str(exon.to_dict()["end"]),
 									 exon.id, transcript_id, exon.to_dict()["strand"]]))
 					else:
 						if exon_idx not in clinical_exons["exclude"]:

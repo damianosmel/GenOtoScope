@@ -11,9 +11,9 @@ from genotoscope.beds.ExtractPhenoTranscripts import ExtractPhenoTranscripts
 ### ### ###
 # local machine
 # input
-data_path = "/home/damian/Documents/L3S/projects/hearing4all/human_genetics/data/misc"
+data_path = "/home/damian/Documents/L3S/projects/hearing4all/human_genetics/genotoscope_data/misc"
 hl_transcripts_file = "hl_relevant_transcripts.xlsx"
-output_path = "/home/damian/Documents/L3S/projects/hearing4all/human_genetics/data/annotation_beds"
+output_path = "/home/damian/Documents/L3S/projects/hearing4all/human_genetics/genotoscope_data/annotation_beds"
 output_dir = "hearing_loss"
 
 ### ### ###
