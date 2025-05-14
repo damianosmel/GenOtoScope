@@ -71,8 +71,8 @@ class RefineLossOfFunction:
 		self.data_path = data_path
 
 		### PyEnsembl ###
-		# release 75 uses human reference genome GRCh37
-		self.ensembl_data = EnsemblRelease(75)
+		# Ensembl release 108 (Oct. 2022) uses the human genome reference GRCh38
+		self.ensembl_data = EnsemblRelease(108)
 
 		### Annotation track files: Proteins critical regions & clinical significant exons ###
 		self.beds_root = beds_root

@@ -52,8 +52,8 @@ class AssignPM1:
 		self.critical_regions_no_benign = BedTool(critical_prot_regions_no_benign_file).sort()
 		self.pm1_regions = BedTool(pm1_regions_file).sort()
 
-		# release 75 uses human reference genome GRCh37
-		self.ensembl_data = EnsemblRelease(75)
+		# Ensembl release 108 (Oct. 2022) uses the human genome reference GRCh38
+		self.ensembl_data = EnsemblRelease(108)
 
 		###         HGVS parser         ###
 		self.hgvs_parser = hgvs.parser.Parser()

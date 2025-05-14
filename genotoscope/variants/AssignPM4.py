@@ -42,8 +42,8 @@ class AssignPM4:
 		self.logger = logging.getLogger("GenOtoScope_Classify.PM4")
 		self.logger.info("Initialize class to examine PM4 rule")
 		self.data_path = data_path
-		# release 75 uses human reference genome GRCh37
-		self.ensembl_data = EnsemblRelease(75)
+		# Ensembl release 108 (Oct. 2022) uses the human genome reference GRCh38
+		self.ensembl_data = EnsemblRelease(108)
 
 		### Annotation tracks: UniProt repeat regions ###
 		self.beds_root = beds_root

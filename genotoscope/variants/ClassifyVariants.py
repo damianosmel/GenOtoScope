@@ -128,8 +128,8 @@ class ClassifyVariants:
 		create_dir(temp_path)
 
 		### PyEnsembl ###
-		# release 75 uses human reference genome GRCh37
-		self.ensembl_data = EnsemblRelease(75)
+		# Ensembl release 108 (Oct. 2022) uses the human genome reference GRCh38
+		self.ensembl_data = EnsemblRelease(108)
 
 		### ClinVar ###
 		self.clinvar_root = join(self.data_path, clinvar_root)
@@ -240,9 +240,9 @@ class ClassifyVariants:
 		"""
 		# prepare repeats without known function
 		self.logger.info("Preparing repeats without known function")
-		[proteome_id, species_taxid, annot_type, ref_version, _] = basename(self.uniprot_domains_file).strip(
+		[proteome_id, species_taxid, annot_type] = basename(self.uniprot_domains_file).strip(
 			".bed").split("_")
-		repeats_no_domains_filename = "_".join([proteome_id, species_taxid, "repeats_no_domains", ref_version]) + ".bed"
+		repeats_no_domains_filename = "_".join([proteome_id, species_taxid, "repeats_no_domains"]) + ".bed"
 		if not exists(join(self.uniprot_path, repeats_no_domains_filename)):
 			self.logger.info("Preparing annotation bed file: Uniprot repeats with no overlapping domain")
 			uniprot_repeats = BedTool(self.uniprot_repeat_file)

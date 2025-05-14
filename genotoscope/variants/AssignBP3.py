@@ -43,8 +43,8 @@ class AssignBP3:
 		self.logger = logging.getLogger("GenOtoScope_Classify.BP3")
 		self.logger.info("Initialize class to examine BP3 rule")
 		self.data_path = data_path
-		# release 75 uses human reference genome GRCh37
-		self.ensembl_data = EnsemblRelease(75)
+		# Ensembl release 108 (Oct. 2022) uses the human genome reference GRCh38
+		self.ensembl_data = EnsemblRelease(108)
 
 		### Annotation tracks: UniProt domains and repeat regions ###
 		self.beds_root = beds_root

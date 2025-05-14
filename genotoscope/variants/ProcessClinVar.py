@@ -68,8 +68,8 @@ class ProcessClinVar:
 		self.clinvar_root = clinvar_root
 
 		### PyEnsembl ###
-		# release 75 uses human reference genome GRCh37
-		self.ensembl_data = EnsemblRelease(75)
+		# Ensembl release 108 (Oct. 2022) uses the human genome reference GRCh38
+		self.ensembl_data = EnsemblRelease(108)
 
 		### ClinVar ###
 		self.load_clinvar_file(clinvar_file)

@@ -42,8 +42,8 @@ class FindClinicalSignificantExons:
 		self.gnomAD_exomes_reader = self.load_vcf_file(gnomAD_exomes_file)
 
 		### PyEnsembl ###
-		# release 75 uses human reference genome GRCh37
-		self.ensembl_data = EnsemblRelease(75)
+		# Ensembl release 108 (Oct. 2022) uses the human genome reference GRCh38
+		self.ensembl_data = EnsemblRelease(108)
 
 	def load_vcf_file(self, file_path):
 		"""
